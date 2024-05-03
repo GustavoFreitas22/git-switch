@@ -13,15 +13,18 @@ import (
 func main() {
 
 	config.Init()
+	config.InitDatabase()
 
 	if len(os.Args) == 1 {
-		fmt.Print("\n\tO Git-switch precisa de argumentos para saber como seguir ! Veja nosso Help abaixo:\n")
+		fmt.Print("\n\tO Git-switch precisa de argumentos para saber como seguir! Veja nosso Help abaixo:\n")
 		helper()
 	} else if len(os.Args) > 1 && !strings.HasPrefix(os.Args[1], "-") {
 		//Verifica se existem argumentos e se o primeiro argumento na verdade não é uma flag
 		switch os.Args[1] {
 		case "help":
 			helper()
+		case "add":
+			fmt.Print("in develop")
 		default:
 			log.Fatalf("Opção \"%s\" não existe, digite git-switch help para obter ajuda", os.Args[1])
 		}
