@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/GustavoFreitas22/git-switch/config"
+	"github.com/GustavoFreitas22/git-switch/repository"
 	"github.com/GustavoFreitas22/git-switch/service"
 )
 
@@ -23,15 +24,29 @@ func main() {
 		switch os.Args[1] {
 		case "help":
 			helper()
-		case "add":
-			fmt.Print("in develop")
 		default:
 			log.Fatalf("Opção \"%s\" não existe, digite git-switch help para obter ajuda", os.Args[1])
 		}
 	} else {
-		service.SwithProfile(config.Data)
+		if config.Profile == "" {
+			insertProfile()
+		} else {
+			changeProfile()
+		}
 	}
+}
 
+func changeProfile() {
+	profile := repository.FindProfile(config.Profile)
+	fmt.Print("Olha o retorno: ", profile)
+	err := service.SwithProfile(profile)
+	if err != nil {
+		fmt.Println(err)
+	}
+}
+
+func insertProfile() {
+	repository.InsertProfile(config.AddProfile)
 }
 
 func helper() {
